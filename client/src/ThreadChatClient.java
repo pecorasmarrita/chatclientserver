@@ -19,7 +19,7 @@ public class ThreadChatClient implements Runnable
 
 	
 	@Override
-	public void run()
+	public void run() // override methodo run
 	{
 			for (;;)
 			{
