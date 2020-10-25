@@ -10,12 +10,11 @@ public class ChatServer
 	
 	private static ArrayList<ThreadChatServer> threadlist = new ArrayList<ThreadChatServer>(); // Dichiarazione ArrayList con ThreadChatServer
 	private static ExecutorService threadpool = Executors.newFixedThreadPool(2); // Dichiarazione Pool di Thread
-	private static int port = 8888; // Porta usata dal socket
 
 	public static void main(String[] args) throws Exception
 	{
-		ServerSocket serversocket = new ServerSocket (port); // Inizializzazione ServerSocket, in attesa di connessione 
-		System.out.println("/nIn attesa della connessione del client sulla porta: " + port);
+		ServerSocket serversocket = new ServerSocket (8888); // Inizializzazione ServerSocket, in attesa di connessione 
+		System.out.println("/nIn attesa della connessione del client sulla porta 8888");
 		for (;;)
 		{
 			Socket client = serversocket.accept(); // Accettamento connessione
