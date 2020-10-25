@@ -20,8 +20,8 @@ public class ChatServer
 
 	/**
 	 * Metodo main della classe ChatServer, si occupa dell'avvio delle istruzioni da eseguire.
-	 * @param args - I parametri passati all'avvio del programma.
-	 * @throws Exception - nel caso di errori sul socket
+	 * @param args I parametri passati all'avvio del programma.
+	 * @throws Exception nel caso di errori sul socket
 	 */
 	
 	public static void main(String[] args) throws Exception
