@@ -4,9 +4,19 @@ import java.util.*;
 import java.io.*;
 import java.net.*;
 
+/**
+ * La classe ChatClient contiene il metodo main() e si occupa della connessione al server, della creazione dei thread ThreadChatClient, dell'impostazione del nome utente e dell'invio dei messaggi al server.
+ * @author Leonardo Giustiniani
+ *
+ */
 
 public class ChatClient 
 {
+	/**
+	 * Metodo main della classe ChatClient, si occupa dell'avvio delle istruzioni da eseguire.
+	 * @param args - I parametri passati all'avvio del programma.
+	 * @throws Exception - nel caso di errori sul socket
+	 */
 	
 	public static void main(String[] args) throws Exception
 	{
@@ -16,7 +26,8 @@ public class ChatClient
 		ThreadChatClient threadchatclient = new ThreadChatClient (socket);
 		Thread threadclientchat = new Thread (threadchatclient); // Thread client
 		threadclientchat.start();
-		String name = getName(); 
+		String name = getName();
+		System.out.println("Inserire messaggio desiderato, usare 'disconnect' per disconnettersi");
 		for (;;)
 		{
 			System.out.println(name + ": "); 
@@ -30,6 +41,11 @@ public class ChatClient
 		}
 		socket.close(); // Chiusura socket
 	}
+	
+	/**
+	 * Metodo getName della classe ChatClient, si occupa dell'assegnazione del nome utente al client.
+	 * 
+	 */
 	
 	public static String getName() throws Exception
 	{

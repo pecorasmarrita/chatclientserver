@@ -4,6 +4,11 @@ import java.util.*;
 import java.io.*;
 import java.net.*;
 
+/**
+ * La classe ThreadChatServer implementa runnable e contiene il costruttore e i metodi run(), output() e endSession(). La classe si occupa dell'invio dei messaggi ai client e della gestione della sessione.
+ * @author Leonardo Giustiniani
+ *
+ */
 
 public class ThreadChatServer implements Runnable
 {
@@ -13,6 +18,13 @@ public class ThreadChatServer implements Runnable
 	private PrintWriter printwriter; // output
 	int i;
 	
+	/**
+	 * Costruttore della classe ThreadChatServer, assegna alle variabili della classe quelle passate durante l'inizializzazione del thread.
+	 * @param socketclient
+	 * @param threadclient 
+	 * @throws Exception - in caso di errori con il socket oppure l'IO
+	 */
+	
 	public ThreadChatServer(Socket socketclient, ArrayList<ThreadChatServer> threadclient) throws Exception
 	{
 		this.socket = socketclient; // assegnazione valore socketclient a socket
@@ -21,6 +33,10 @@ public class ThreadChatServer implements Runnable
 		printwriter = new PrintWriter(socket.getOutputStream(), true); // output
 	}
 	
+	/**
+	 * Metodo run della classe ThreadChatServer, si occupa dell'esecuzione dei metodi di invio dei messaggi e della chiusura della sessione.
+	 * 
+	 */
 	
 	@Override
 	public void run()
@@ -40,6 +56,10 @@ public class ThreadChatServer implements Runnable
 			}
 	}
 	
+	/**
+	 * Metodo output della classe ThreadChatServer, si occupa dell'invio dei messaggi ai client destinatari.
+	 * 
+	 */
 	
 	private void output(String message)
 	{
@@ -50,6 +70,10 @@ public class ThreadChatServer implements Runnable
 		}
 	}
 	
+	/**
+	 * Metodo endSession della classe ThreadChatServer, si occupa della chiusura delle sessioni con i client.
+	 * 
+	 */
 	
 	public void endSession()
 	{
