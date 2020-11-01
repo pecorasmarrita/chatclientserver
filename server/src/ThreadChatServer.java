@@ -41,19 +41,23 @@ public class ThreadChatServer implements Runnable
 	@Override
 	public void run()
 	{
+		try {
 			for(;;) // ciclo continuo
 			{
 				String input = ""; 
-				try {
 					input = bufferedreader.readLine(); int index = input.indexOf(""); // lettura input
 					output(input.substring(index)); // passa il messaggio al metodo output
-					endSession(); // chiusura sessione
-					bufferedreader.close(); // chiusura input
-					printwriter.close(); // chiusura output
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			endSession(); // chiusura sessione
+			try {
+				bufferedreader.close(); // chiusura input
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+			printwriter.close(); // chiusura output
 	}
 	
 	/**
