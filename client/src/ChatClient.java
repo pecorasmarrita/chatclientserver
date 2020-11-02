@@ -30,7 +30,7 @@ public class ChatClient
 		System.out.println("Inserire messaggio desiderato, usare 'disconnect' per disconnettersi");
 		for (;;)
 		{
-			System.out.println("> "); 
+			System.out.println("> ");
 			String input = bufferedreader.readLine(); // read input
 			if(input.contains("disconnect")) // comando per la disconnessione
 			{

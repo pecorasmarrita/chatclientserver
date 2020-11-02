@@ -16,8 +16,8 @@ public class ChatServer
 
 	
 	private static ArrayList<ThreadChatServer> threadlist = new ArrayList<ThreadChatServer>(); // Dichiarazione ArrayList con ThreadChatServer
-	private static ExecutorService threadpool = Executors.newFixedThreadPool(2); // Dichiarazione Pool di Thread
-
+	private static ExecutorService threadpool = Executors.newFixedThreadPool(5); // Dichiarazione Pool di Thread
+	
 	/**
 	 * Metodo main della classe ChatServer, si occupa dell'avvio delle istruzioni da eseguire.
 	 * @param args I parametri passati all'avvio del programma.
