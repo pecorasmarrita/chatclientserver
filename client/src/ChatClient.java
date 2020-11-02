@@ -30,14 +30,14 @@ public class ChatClient
 		System.out.println("Inserire messaggio desiderato, usare 'disconnect' per disconnettersi");
 		for (;;)
 		{
-			System.out.println(name + ": "); 
+			System.out.println("> "); 
 			String input = bufferedreader.readLine(); // read input
 			if(input.contains("disconnect")) // comando per la disconnessione
 			{
 				System.out.println("Fine della chat");
 				break;
 			}
-			printwriter.println(input); 
+			printwriter.println(name+": "+input); 
 		}
 		socket.close(); // Chiusura socket
 	}

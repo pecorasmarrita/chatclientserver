@@ -48,7 +48,7 @@ public class ThreadChatClient implements Runnable
 				{
 					break;
 				}
-				System.out.println(": " + input);
+				System.out.println(input);
 			}
 		try
 		{
