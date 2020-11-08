@@ -50,7 +50,7 @@ public class ThreadChatServer implements Runnable
 		try {
 			for(;;) // ciclo continuo
 			{
-				String input = ""; 
+				String input = "";
 					input = bufferedreader.readLine(); int index = input.indexOf(""); // lettura input
 					output(input.substring(index)); // passa il messaggio al metodo output
 			}
@@ -78,8 +78,8 @@ public class ThreadChatServer implements Runnable
 		for(int i = 0; i < clientlist.size(); i++)
 		{
 			clientlist.get(i).printwriter.println(username + ": "+ message + "\t" + messagetime); // invio del messaggio
-			System.out.println("Messaggio inviato da " + username);
 		}
+		System.out.println("Messaggio inviato da " + username);
 	}
 	
 	/**
@@ -128,7 +128,10 @@ public class ThreadChatServer implements Runnable
 		sendUpdate();
 		printwriter.println("Nome utente impostato correttamente");
 		System.out.println(socket + " ha impostato il nome utente " + username);
-		// mandare messaggio di connessione agli altri
+		for(ThreadChatServer thread : clientlist)
+		{
+			thread.printwriter.println(username + " si è connesso"); // invio informazione disconnessione
+		}
 		// aggiornare lista partecipanti
 	}
 	
@@ -168,6 +171,10 @@ public class ThreadChatServer implements Runnable
 			thread.printwriter.println(username + " si è disconnesso"); // invio informazione disconnessione
 		}
 		sendUpdate();
+		if (clientlist.size()<2)
+		{
+			for(ThreadChatServer thread : clientlist) thread.printwriter.println("Sei rimasto da solo in chat, ulteriori messaggi saranno visibili solo a te"); // invio informazione disconnessione
+		}
 	}
 	
 	public void sendUpdate()

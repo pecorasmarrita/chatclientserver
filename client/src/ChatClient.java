@@ -39,6 +39,7 @@ public class ChatClient
 			printwriter.println(input);
 		}
 		socket.close(); // Chiusura socket
+		System.exit(0);
 	}
 	
 	/**
