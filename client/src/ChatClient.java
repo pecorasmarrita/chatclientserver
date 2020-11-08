@@ -26,7 +26,7 @@ public class ChatClient
 		ThreadChatClient threadchatclient = new ThreadChatClient (socket);
 		Thread threadclientchat = new Thread (threadchatclient); // Thread client
 		threadclientchat.start();
-		System.out.println("Inserire messaggio desiderato, usare 'disconnect' per disconnettersi");
+		System.out.println("Inserire messaggio desiderato, usare 'disconnect' per disconnettersi, usare '@nomeutente' per inviare un messaggio privato");
 		for (;;)
 		{
 			System.out.println("> ");
@@ -35,6 +35,10 @@ public class ChatClient
 			{
 				System.out.println("Fine della chat");
 				break;
+			}
+			if (input.startsWith("@"))
+			{
+				System.out.println("Inserire messaggio privato da inviare a " + input.substring(1));
 			}
 			printwriter.println(input);
 		}
