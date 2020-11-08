@@ -52,7 +52,17 @@ public class ThreadChatServer implements Runnable
 			{
 				String input = "";
 					input = bufferedreader.readLine(); int index = input.indexOf(""); // lettura input
-					output(input.substring(index)); // passa il messaggio al metodo output
+					if (input.startsWith("@"))
+					{
+						String recipient = input.substring(1); int index2 = recipient.indexOf("");
+						input = "";
+						input = bufferedreader.readLine(); index = input.indexOf(""); // lettura input
+						output(input.substring(index), recipient.substring(index2));
+					}
+					else 
+					{
+						output(input.substring(index)); // passa il messaggio al metodo output
+					}
 			}
 		} catch (Exception e) {
 			System.out.println("Connessione con il client chiusa");
@@ -75,9 +85,23 @@ public class ThreadChatServer implements Runnable
 	{
 		String messagetime = "" + java.time.LocalTime.now();
 		messagetime = messagetime.substring(0, 5);
-		for(int i = 0; i < clientlist.size(); i++)
+		for(ThreadChatServer thread : clientlist)
 		{
-			clientlist.get(i).printwriter.println(username + ": "+ message + "\t" + messagetime); // invio del messaggio
+			thread.printwriter.println(username + ": "+ message + "\t" + messagetime); // invio del messaggio
+		}
+		System.out.println("Messaggio inviato da " + username);
+	}
+	
+	private void output(String message, String recipient)
+	{
+		String messagetime = "" + java.time.LocalTime.now();
+		messagetime = messagetime.substring(0, 5);
+		for(ThreadChatServer thread : clientlist)
+		{
+			if (recipient.equals(thread.getName()))
+			{
+				thread.printwriter.println("Messaggio privato da " + username + ": "+ message + "\t" + messagetime); // invio del messaggio
+			}
 		}
 		System.out.println("Messaggio inviato da " + username);
 	}
