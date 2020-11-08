@@ -3,6 +3,8 @@ package src;
 import java.util.*;
 import java.io.*;
 import java.net.*;
+import java.awt.*;
+import java.awt.TrayIcon.MessageType;
 
 /**
  * La classe ThreadChatClient implementa runnable, contiene il costruttore e il metodo run(). Si occupa della gestione dei messaggi server-client.
@@ -49,6 +51,7 @@ public class ThreadChatClient implements Runnable
 					break;
 				}
 				System.out.println(input);
+				SendWindows10Notification(input);
 			}
 		try
 		{
@@ -58,5 +61,28 @@ public class ThreadChatClient implements Runnable
 		{
 			System.out.println("Errore durante la disconnessione");
 		}
+	}
+	
+	private void SendWindows10Notification(String message)
+	{
+		//Obtain only one instance of the SystemTray object
+	    SystemTray tray = SystemTray.getSystemTray();
+
+	    // If you want to create an icon in the system tray to preview
+	    Image image = Toolkit.getDefaultToolkit().createImage("./logo.png");
+	    //Alternative (if the icon is on the classpath):
+	    //Image image = Toolkit.getDefaultToolkit().createImage(getClass().getResource("icon.png"));
+
+	    TrayIcon trayIcon = new TrayIcon(image, "Beatiful chat");
+	    //Let the system resize the image if needed
+	    trayIcon.setImageAutoSize(true);
+	    //Set tooltip text for the tray icon
+	    trayIcon.setToolTip("System tray icon demo");
+	    try {
+			tray.add(trayIcon);
+		} catch (AWTException e) {
+			System.out.println("Can't send notification");
+		}
+	    trayIcon.displayMessage("Beatiful chat", message, MessageType.INFO);
 	}
 }

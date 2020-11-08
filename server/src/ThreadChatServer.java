@@ -162,12 +162,10 @@ public class ThreadChatServer implements Runnable
 	public void endSession()
 	{
 		System.out.println("Disconnessione client");
-		i = 0;
+		clientlist.remove(this);
 		for(ThreadChatServer thread : clientlist)
 		{
-			thread.printwriter.println("Destinatario disconnesso, ulteriori messaggi non verranno recapitati"); // invio informazione disconnessione
-			i++;
-			clientlist.remove(i); // remove this object instead of this
+			thread.printwriter.println(username + " si è disconnesso"); // invio informazione disconnessione
 		}
 		sendUpdate();
 	}
