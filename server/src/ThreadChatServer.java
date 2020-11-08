@@ -16,6 +16,7 @@ public class ThreadChatServer implements Runnable
 	private Socket socket; 
 	private BufferedReader bufferedreader; // input
 	private PrintWriter printwriter; // output
+	private String username;
 	int i;
 	
 	/**
@@ -41,6 +42,8 @@ public class ThreadChatServer implements Runnable
 	@Override
 	public void run()
 	{
+		output("Inserire il proprio nome:");
+		
 		try {
 			for(;;) // ciclo continuo
 			{
@@ -73,6 +76,12 @@ public class ThreadChatServer implements Runnable
 			System.out.println("Messaggio inviato");
 		}
 	}
+	
+	private void setName (String username)
+	{
+		
+	}
+	
 	
 	/**
 	 * Metodo endSession della classe ThreadChatServer, si occupa della chiusura delle sessioni con i client.
