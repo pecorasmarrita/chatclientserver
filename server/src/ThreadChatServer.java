@@ -44,7 +44,7 @@ public class ThreadChatServer implements Runnable
 	@Override
 	public void run()
 	{
-		
+		printwriter.println(nameList());
 		setName();
 		// visualizzare partecipanti connessi
 		try {
@@ -77,7 +77,7 @@ public class ThreadChatServer implements Runnable
 		messagetime = messagetime.substring(0, 5);
 		for(int i = 0; i < clientlist.size(); i++)
 		{
-			clientlist.get(i).printwriter.println(message + "\t" + messagetime); // invio del messaggio
+			clientlist.get(i).printwriter.println(username + ": "+ message + "\t" + messagetime); // invio del messaggio
 			System.out.println("Messaggio inviato");
 		}
 	}
@@ -111,7 +111,7 @@ public class ThreadChatServer implements Runnable
 				tmpstring = tmpstring.replace("\n", "").replace("\r", "");
 				for (ThreadChatServer thread : clientlist)
 				{
-					if (tmpstring == thread.getName())
+					if (tmpstring.equals(thread.getName()))
 					{
 						printwriter.println("Nome già presente all'interno della chat");
 						verified = false;
@@ -132,6 +132,27 @@ public class ThreadChatServer implements Runnable
 		// aggiornare lista partecipanti
 	}
 	
+	public String nameList()
+	{
+		String namelist = "";
+		for(ThreadChatServer thread : clientlist)
+		{
+			namelist = namelist + thread.getName() + ", ";
+		}
+		String tmpstring = namelist.replace(", ", "").replace("null", "");
+		if (tmpstring.length()<1)
+		{
+			namelist = "Al momento non è connesso nessuno";
+		}
+		else 
+		{
+			namelist = namelist.replace("null, ", "");
+			namelist = namelist.substring(0, namelist.length() - 2);
+			namelist = "Partecipanti: " + namelist;
+		}
+		return namelist;
+	}
+
 	
 	/**
 	 * Metodo endSession della classe ThreadChatServer, si occupa della chiusura delle sessioni con i client.
@@ -155,6 +176,7 @@ public class ThreadChatServer implements Runnable
 	{
 		for(ThreadChatServer thread : clientlist) 
 		{
+			System.out.println("Aggiornamento della sessione");
 			thread.updateSession();
 		}
 	}
