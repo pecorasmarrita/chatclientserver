@@ -133,7 +133,7 @@ public class ThreadChatServer implements Runnable
 			{
 				tmpstring = bufferedreader.readLine();
 				tmpstring = tmpstring.replace("\n", "").replace("\r", "");
-				if (tmpstring.equals(""))
+				if (tmpstring.equals("") || tmpstring.equals(null))
 				{
 					printwriter.println("Per favore inserire un nome utente valido!");
 					verified = false;
@@ -161,6 +161,7 @@ public class ThreadChatServer implements Runnable
 		for(ThreadChatServer thread : clientlist)
 		{
 			thread.printwriter.println(username + " si è connesso"); // invio informazione disconnessione
+			thread.printwriter.println(nameList());
 		}
 		// aggiornare lista partecipanti
 	}
@@ -207,8 +208,9 @@ public class ThreadChatServer implements Runnable
 		}
 		else 
 		{
-			printwriter.println(nameList());
+			for(ThreadChatServer thread : clientlist) thread.printwriter.println(nameList()); 
 		}
+		
 	}
 	
 	public void sendUpdate()

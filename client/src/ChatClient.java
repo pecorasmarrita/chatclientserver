@@ -1,6 +1,9 @@
 package src;
 
 import java.util.*;
+
+import javax.swing.*;
+
 import java.io.*;
 import java.net.*;
 
@@ -10,7 +13,7 @@ import java.net.*;
  *
  */
 
-public class ChatClient 
+public class ChatClient
 {
 	/**
 	 * Metodo main della classe ChatClient, si occupa dell'avvio delle istruzioni da eseguire.
