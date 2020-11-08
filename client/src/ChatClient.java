@@ -26,7 +26,6 @@ public class ChatClient
 		ThreadChatClient threadchatclient = new ThreadChatClient (socket);
 		Thread threadclientchat = new Thread (threadchatclient); // Thread client
 		threadclientchat.start();
-		String name = getName();
 		System.out.println("Inserire messaggio desiderato, usare 'disconnect' per disconnettersi");
 		for (;;)
 		{
@@ -37,7 +36,7 @@ public class ChatClient
 				System.out.println("Fine della chat");
 				break;
 			}
-			printwriter.println(name+": "+input); 
+			printwriter.println(input);
 		}
 		socket.close(); // Chiusura socket
 	}
@@ -49,7 +48,6 @@ public class ChatClient
 	
 	public static String getName() throws Exception
 	{
-		System.out.println("Inserire nome: ");
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 		String name = input.readLine();
 		return name;

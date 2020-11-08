@@ -29,7 +29,9 @@ public class ThreadChatServer implements Runnable
 	public ThreadChatServer(Socket socketclient, ArrayList<ThreadChatServer> threadclient) throws Exception
 	{
 		this.socket = socketclient; // assegnazione valore socketclient a socket
+		System.out.println(socket);
 		this.clientlist = threadclient; // assegnazione valore threadclient a client
+		System.out.println(clientlist);
 		bufferedreader = new BufferedReader(new InputStreamReader(socket.getInputStream())); // input
 		printwriter = new PrintWriter(socket.getOutputStream(), true); // output
 	}
@@ -42,8 +44,9 @@ public class ThreadChatServer implements Runnable
 	@Override
 	public void run()
 	{
-		output("Inserire il proprio nome:");
 		
+		setName();
+		// visualizzare partecipanti connessi
 		try {
 			for(;;) // ciclo continuo
 			{
@@ -52,14 +55,14 @@ public class ThreadChatServer implements Runnable
 					output(input.substring(index)); // passa il messaggio al metodo output
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Connessione con il client chiusa");
 		}
 			endSession(); // chiusura sessione
 			try {
 				bufferedreader.close(); // chiusura input
 			} catch (IOException e) {
 				e.printStackTrace();
-			} 
+			}
 			printwriter.close(); // chiusura output
 	}
 	
@@ -70,16 +73,63 @@ public class ThreadChatServer implements Runnable
 	
 	private void output(String message)
 	{
+		String messagetime = "" + java.time.LocalTime.now();
+		messagetime = messagetime.substring(0, 5);
 		for(int i = 0; i < clientlist.size(); i++)
 		{
-			clientlist.get(i).printwriter.println(message); // invio del messaggio
+			clientlist.get(i).printwriter.println(message + "\t" + messagetime); // invio del messaggio
 			System.out.println("Messaggio inviato");
 		}
 	}
 	
-	private void setName (String username)
+	/**
+	 * Metodo getName della classe ThreadChatServer, si occupa di restituire il nome utente.
+	 * 
+	 */
+	
+	public String getName()
 	{
-		
+		return username;
+	}
+	
+	/**
+	 * Metodo setName della classe ThreadChatServer, si occupa di impostare il nome utente.
+	 * 
+	 */
+	
+	private void setName()
+	{
+		String tmpstring = null;
+		boolean verified = false;
+		while (!(verified))
+		{
+			verified = true;
+			printwriter.println("Inserire nome utente:");
+			try 
+			{
+				tmpstring = bufferedreader.readLine();
+				tmpstring = tmpstring.replace("\n", "").replace("\r", "");
+				for (ThreadChatServer thread : clientlist)
+				{
+					if (tmpstring == thread.getName())
+					{
+						printwriter.println("Nome già presente all'interno della chat");
+						verified = false;
+						break;
+					}
+				}
+			}
+			catch (IOException e)
+		    {
+				printwriter.println("Errore durante l'input, si prega di riprovare");
+			}
+		}
+		this.username = tmpstring;
+		sendUpdate();
+		printwriter.println("Nome utente impostato correttamente");
+		System.out.println(socket + " ha impostato il nome utente " + username);
+		// mandare messaggio di connessione agli altri
+		// aggiornare lista partecipanti
 	}
 	
 	
@@ -96,7 +146,21 @@ public class ThreadChatServer implements Runnable
 		{
 			thread.printwriter.println("Destinatario disconnesso, ulteriori messaggi non verranno recapitati"); // invio informazione disconnessione
 			i++;
-			clientlist.remove(i);
+			clientlist.remove(i); // remove this object instead of this
 		}
+		sendUpdate();
+	}
+	
+	public void sendUpdate()
+	{
+		for(ThreadChatServer thread : clientlist) 
+		{
+			thread.updateSession();
+		}
+	}
+	
+	public void updateSession()
+	{
+		clientlist = ChatServer.threadlist;
 	}
 }

@@ -15,7 +15,7 @@ public class ChatServer
 {
 
 	
-	private static ArrayList<ThreadChatServer> threadlist = new ArrayList<ThreadChatServer>(); // Dichiarazione ArrayList con ThreadChatServer
+	public static ArrayList<ThreadChatServer> threadlist = new ArrayList<ThreadChatServer>(); // Dichiarazione ArrayList con ThreadChatServer
 	private static ExecutorService threadpool = Executors.newFixedThreadPool(5); // Dichiarazione Pool di Thread
 	
 	/**
