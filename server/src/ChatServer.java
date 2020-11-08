@@ -27,11 +27,11 @@ public class ChatServer
 	public static void main(String[] args) throws Exception
 	{
 		ServerSocket serversocket = new ServerSocket (8888); // Inizializzazione ServerSocket, in attesa di connessione 
-		System.out.println("/nIn attesa della connessione del client sulla porta 8888");
+		System.out.println("In attesa della connessione del client sulla porta 8888");
 		for (;;)
 		{
 			Socket client = serversocket.accept(); // Accettamento connessione
-			System.out.println("/nConnessione con " + client + " completata");
+			System.out.println("Connessione con " + client + " completata");
 			ThreadChatServer threadchatserver = new ThreadChatServer (client, threadlist); // Creazione ThreadChatServer
 			threadlist.add (threadchatserver); // Aggiunta ThreadChatServer all'Arraylist
 			threadpool.execute (threadchatserver); // Esecuzione thread

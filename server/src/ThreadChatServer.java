@@ -78,7 +78,7 @@ public class ThreadChatServer implements Runnable
 		for(int i = 0; i < clientlist.size(); i++)
 		{
 			clientlist.get(i).printwriter.println(username + ": "+ message + "\t" + messagetime); // invio del messaggio
-			System.out.println("Messaggio inviato");
+			System.out.println("Messaggio inviato da " + username);
 		}
 	}
 	
@@ -161,7 +161,7 @@ public class ThreadChatServer implements Runnable
 	
 	public void endSession()
 	{
-		System.out.println("Disconnessione client");
+		System.out.println("Disconnessione client di " + username);
 		clientlist.remove(this);
 		for(ThreadChatServer thread : clientlist)
 		{

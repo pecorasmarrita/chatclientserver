@@ -38,6 +38,7 @@ public class ThreadChatClient implements Runnable
 	@Override
 	public void run() // override methodo run
 	{
+			TrayIcon trayIcon = getWindows10Tray();
 			for (;;)
 			{
 				String input = ""; // inizializzazione variabile input
@@ -51,7 +52,7 @@ public class ThreadChatClient implements Runnable
 					break;
 				}
 				System.out.println(input);
-				SendWindows10Notification(input);
+				SendWindows10Notification(input, trayIcon);
 			}
 		try
 		{
@@ -63,11 +64,19 @@ public class ThreadChatClient implements Runnable
 		}
 	}
 	
-	private void SendWindows10Notification(String message)
+	private void SendWindows10Notification(String message, TrayIcon trayIcon)
 	{
-		if ("Windows 10" != System.getProperty("os.name"))
+		if ("Windows 10".equals(System.getProperty("os.name")))
 		{
-			System.out.println("Sistema di notifiche non supportato da questo sistema operativo");
+			trayIcon.displayMessage("Beatiful chat", message, MessageType.INFO);
+		}
+	}
+	
+	private TrayIcon getWindows10Tray()
+	{
+		if (!"Windows 10".equals(System.getProperty("os.name")))
+		{
+			System.out.println("Sistema di notifiche non supportato dal sistema operativo " + System.getProperty("os.name"));
 		}
 		else 
 		{
@@ -81,7 +90,8 @@ public class ThreadChatClient implements Runnable
 			} catch (AWTException e) {
 				System.out.println("Can't send notification");
 			}
-		    trayIcon.displayMessage("Beatiful chat", message, MessageType.INFO);
+		    return trayIcon;	
 		}
+		return null;
 	}
 }
