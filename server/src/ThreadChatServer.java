@@ -133,6 +133,12 @@ public class ThreadChatServer implements Runnable
 			{
 				tmpstring = bufferedreader.readLine();
 				tmpstring = tmpstring.replace("\n", "").replace("\r", "");
+				if (tmpstring.equals(""))
+				{
+					printwriter.println("Per favore inserire un nome utente valido!");
+					verified = false;
+					continue;
+				}
 				for (ThreadChatServer thread : clientlist)
 				{
 					if (tmpstring.equals(thread.getName()))
@@ -198,6 +204,10 @@ public class ThreadChatServer implements Runnable
 		if (clientlist.size()<2)
 		{
 			for(ThreadChatServer thread : clientlist) thread.printwriter.println("Sei rimasto da solo in chat, ulteriori messaggi saranno visibili solo a te"); // invio informazione disconnessione
+		}
+		else 
+		{
+			printwriter.println(nameList());
 		}
 	}
 	
