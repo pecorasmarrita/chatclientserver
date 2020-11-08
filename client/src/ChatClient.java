@@ -43,14 +43,14 @@ public class ChatClient
 	
 	/**
 	 * Metodo getName della classe ChatClient, si occupa dell'assegnazione del nome utente al client.
-	 * 
+	 *  @return name ritorna il nome
+	 *  @throws Exception in caso di errore sul nome
 	 */
 	
 	public static String getName() throws Exception
 	{
-		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-		String name = input.readLine();
-		return name;
+		// ottenere nome dal server
+		return null;
 	}
 	
 }

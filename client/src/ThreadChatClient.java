@@ -20,7 +20,7 @@ public class ThreadChatClient implements Runnable
 	
 	/**
 	 * Costruttore della classe ThreadChatClient, assegna alle variabili della classe quelle passate durante l'inizializzazione del thread.
-	 * @param socket
+	 * @param socket Socket connessione
 	 * @throws Exception - in caso di errori con il socket oppure l'IO
 	 */
 	
