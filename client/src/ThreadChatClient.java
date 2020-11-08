@@ -65,16 +65,23 @@ public class ThreadChatClient implements Runnable
 	
 	private void SendWindows10Notification(String message)
 	{
-	    SystemTray tray = SystemTray.getSystemTray(); // ottenere system tray
-	    Image image = Toolkit.getDefaultToolkit().createImage("./logo.png");
-	    TrayIcon trayIcon = new TrayIcon(image, "Beatiful chat");
-	    trayIcon.setImageAutoSize(true);
-	    trayIcon.setToolTip("Beatiful chat");
-	    try {
-			tray.add(trayIcon);
-		} catch (AWTException e) {
-			System.out.println("Can't send notification");
+		if ("Windows 10" != System.getProperty("os.name"))
+		{
+			System.out.println("Sistema di notifiche non supportato da questo sistema operativo");
 		}
-	    trayIcon.displayMessage("Beatiful chat", message, MessageType.INFO);
+		else 
+		{
+			SystemTray tray = SystemTray.getSystemTray(); // ottenere system tray
+		    Image image = Toolkit.getDefaultToolkit().createImage("./img/logo.png");
+		    TrayIcon trayIcon = new TrayIcon(image, "Beatiful chat");
+		    trayIcon.setImageAutoSize(true);
+		    trayIcon.setToolTip("Beatiful chat");
+		    try {
+				tray.add(trayIcon);
+			} catch (AWTException e) {
+				System.out.println("Can't send notification");
+			}
+		    trayIcon.displayMessage("Beatiful chat", message, MessageType.INFO);
+		}
 	}
 }
