@@ -39,10 +39,6 @@ public class ChatClient
 				System.out.println("Fine della chat");
 				break;
 			}
-			if (input.startsWith("@"))
-			{
-				System.out.println("Inserire messaggio privato da inviare a " + input.substring(1));
-			}
 			printwriter.println(input);
 		}
 		socket.close(); // Chiusura socket

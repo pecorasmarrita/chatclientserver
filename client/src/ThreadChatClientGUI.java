@@ -3,6 +3,7 @@ package src;
 import java.util.*;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import java.io.*;
 import java.net.*;
@@ -64,6 +65,10 @@ public class ThreadChatClientGUI extends ThreadChatClient implements Runnable
 				if (input.startsWith("Partecipanti: ") || input.equals("Al momento non è connesso nessuno"))
 				{
 					ChatClientGui.partecipanti.setText(input);
+				}
+				else if (input.equals("Impossibile inviare il messaggio: il nome utente selezionato non è valido"))
+				{
+					JOptionPane.showMessageDialog(null, "Impossibile inviare il messaggio: il nome utente selezionato non è valido", "Attenzione!",  JOptionPane.ERROR_MESSAGE);
 				}
 				else
 				{

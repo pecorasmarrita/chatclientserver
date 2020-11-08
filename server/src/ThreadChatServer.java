@@ -52,12 +52,29 @@ public class ThreadChatServer implements Runnable
 			{
 				String input = "";
 					input = bufferedreader.readLine(); int index = input.indexOf(""); // lettura input
-					if (input.startsWith("@"))
+					if (input.startsWith("@") && input.contains(" "))
 					{
-						String recipient = input.substring(1); int index2 = recipient.indexOf("");
-						input = "";
-						input = bufferedreader.readLine(); index = input.indexOf(""); // lettura input
-						output(input.substring(index), recipient.substring(index2));
+						if (input.indexOf(" ") !=1)
+						{
+							Boolean available = false;
+							String message = input.substring(input.indexOf(" ")+1); index = message.indexOf("");
+							System.out.println(message);
+							String recipient = input.substring(1, input.indexOf(" ")); int index2 = recipient.indexOf("");
+							System.out.println(recipient);
+							for(ThreadChatServer thread : clientlist) 
+								{
+									if (recipient.substring(index2).equals(thread.getName()))
+									{
+										output(message.substring(index), recipient.substring(index2));
+										available = true;
+										break;
+									}
+								}
+							if (!(available))
+							{
+								printwriter.println("Impossibile inviare il messaggio: il nome utente selezionato non è valido");
+							}
+						}
 					}
 					else 
 					{
@@ -128,12 +145,12 @@ public class ThreadChatServer implements Runnable
 		while (!(verified))
 		{
 			verified = true;
-			printwriter.println("Inserire nome utente:");
+			printwriter.println("Inserire nome utente senza spazi:");
 			try 
 			{
 				tmpstring = bufferedreader.readLine();
 				tmpstring = tmpstring.replace("\n", "").replace("\r", "");
-				if (tmpstring.equals("") || tmpstring.equals(null))
+				if (tmpstring.equals("") || tmpstring.equals(null) || tmpstring.contains(" "))
 				{
 					printwriter.println("Per favore inserire un nome utente valido!");
 					verified = false;

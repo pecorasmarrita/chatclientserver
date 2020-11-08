@@ -8,10 +8,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import java.awt.Panel;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -58,6 +60,7 @@ public class ChatClientGui extends JFrame {
 			}
 		} while (!(servermessage.equals("Nome utente impostato correttamente")));
 		ChatClientGui frame = new ChatClientGui();
+		frame.setIconImage(ImageIO.read(new File("./img/logo.png")));
 		frame.setVisible(true);
 		frame.setTitle("Beatiful Chat - Benvenuto " + nameinput);
 		ThreadChatClientGUI threadchatclient = new ThreadChatClientGUI (socket, frame, messaggi, partecipanti);
@@ -73,10 +76,6 @@ public class ChatClientGui extends JFrame {
 			{
 				System.out.println("Fine della chat");
 				break;
-			}
-			if (input.startsWith("@"))
-			{
-				System.out.println("Inserire messaggio privato da inviare a " + input.substring(1));
 			}
 			printwriter.println(input);
 		}
@@ -100,7 +99,7 @@ public class ChatClientGui extends JFrame {
 		messaggi = new JLabel();
 		partecipanti = new JLabel(listapartecipanti);
 		JScrollPane scroller = new JScrollPane(messaggi, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		txtrInserireMessaggio.setToolTipText("Inserire messaggio");
+		txtrInserireMessaggio.setToolTipText("Vuoi mandare un messaggio privato? Menziona l'utente che vuoi contattare usando '@nomeutente'");
 		contentPane.add(txtrInserireMessaggio, BorderLayout.SOUTH);
 		contentPane.add(scroller);
 		contentPane.add(partecipanti, BorderLayout.NORTH);
