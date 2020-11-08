@@ -109,6 +109,11 @@ public class ThreadChatServer implements Runnable
 		System.out.println("Messaggio inviato da " + username);
 	}
 	
+	/**
+	 * Metodo output della classe ThreadChatServer con parametro il destinatario, si occupa dell'invio dei messaggi ai client destinatari.
+	 * 
+	 */
+	
 	private void output(String message, String recipient)
 	{
 		String messagetime = "" + java.time.LocalTime.now();
@@ -183,6 +188,11 @@ public class ThreadChatServer implements Runnable
 		// aggiornare lista partecipanti
 	}
 	
+	/**
+	 * Metodo nameList della classe ThreadChatServer, si occupa di restituire la lista degli utenti connessi.
+	 * 
+	 */
+	
 	public String nameList()
 	{
 		String namelist = "";
@@ -231,6 +241,11 @@ public class ThreadChatServer implements Runnable
 		
 	}
 	
+	/**
+	 * Metodo sendUpdate della classe ThreadChatServer, si occupa di avvisare gli altri thread che è necessario aggiornare la sessione.
+	 * 
+	 */
+	
 	public void sendUpdate()
 	{
 		for(ThreadChatServer thread : clientlist) 
@@ -239,6 +254,11 @@ public class ThreadChatServer implements Runnable
 			thread.updateSession();
 		}
 	}
+	
+	/**
+	 * Metodo updateSession della classe ThreadChatServer, si occupa di aggiornare la sessione per il thread.
+	 * 
+	 */
 	
 	public void updateSession()
 	{

@@ -64,6 +64,11 @@ public class ThreadChatClient implements Runnable
 		}
 	}
 	
+	/**
+	 * Metodo SendWindows10Notification della classe ThreadChatClient, si occupa di inviare al client la notifica del messaggio.
+	 * 
+	 */
+	
 	public void SendWindows10Notification(String message, TrayIcon trayIcon)
 	{
 		if ("Windows 10".equals(System.getProperty("os.name")))
@@ -71,6 +76,11 @@ public class ThreadChatClient implements Runnable
 			trayIcon.displayMessage("Beatiful chat", message, MessageType.INFO);
 		}
 	}
+	
+	/**
+	 * Metodo getWindows10Tray della classe ThreadChatClient, si occupa di creare un'icona all'interno della tray di windows.
+	 * 
+	 */
 	
 	public TrayIcon getWindows10Tray()
 	{

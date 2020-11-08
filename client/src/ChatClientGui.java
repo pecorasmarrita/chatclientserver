@@ -22,6 +22,12 @@ import java.net.UnknownHostException;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+/**
+ * Classe ChatClientGui, si occupa di creare l'interfaccia utente dell'applicazione e di connettere il client al server
+ */
 
 public class ChatClientGui extends JFrame {
 
@@ -29,9 +35,10 @@ public class ChatClientGui extends JFrame {
 	public JPanel contentPane;
 	public static JLabel messaggi;
 	public static JLabel partecipanti;
+	private Socket socket;
 
 	/**
-	 * Launch the application.
+	 * Metodo main della classe ChatClientGui, si occupa di stabilire la connessione al server e di visualizzare l'interfaccia utente.
 	 * @throws IOException 
 	 * @throws UnknownHostException 
 	 */
@@ -85,7 +92,7 @@ public class ChatClientGui extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Costruttore, si occupa di creare l'interfaccia utente dell'applicazione
 	 */
 	public ChatClientGui() {
 		setTitle("Beatiful Chat");
@@ -96,6 +103,21 @@ public class ChatClientGui extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		JTextArea txtrInserireMessaggio = new JTextArea();
+		txtrInserireMessaggio.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+				{
+					try {
+						String input = txtrInserireMessaggio.getText();
+						PrintWriter printwriter = new PrintWriter(socket.getOutputStream(), true);
+						printwriter.println(input);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					} // input
+				}
+			}
+		});
 		messaggi = new JLabel();
 		partecipanti = new JLabel(listapartecipanti);
 		JScrollPane scroller = new JScrollPane(messaggi, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
