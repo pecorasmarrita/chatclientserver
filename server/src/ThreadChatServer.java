@@ -58,18 +58,19 @@ public class ThreadChatServer implements Runnable
 						{
 							Boolean available = false;
 							String message = input.substring(input.indexOf(" ")+1); index = message.indexOf("");
-							System.out.println(message);
 							String recipient = input.substring(1, input.indexOf(" ")); int index2 = recipient.indexOf("");
-							System.out.println(recipient);
-							for(ThreadChatServer thread : clientlist) 
-								{
-									if (recipient.substring(index2).equals(thread.getName()))
+							if (!(recipient.substring(index2).equals(username)))
 									{
-										output(message.substring(index), recipient.substring(index2));
-										available = true;
-										break;
+										for(ThreadChatServer thread : clientlist) 
+										{
+											if (recipient.substring(index2).equals(thread.getName()))
+											{
+												output(message.substring(index), recipient.substring(index2));
+												available = true;
+												break;
+											}
+										}
 									}
-								}
 							if (!(available))
 							{
 								printwriter.println("Impossibile inviare il messaggio: il nome utente selezionato non è valido");
@@ -125,6 +126,7 @@ public class ThreadChatServer implements Runnable
 				thread.printwriter.println("Messaggio privato da " + username + ": "+ message + "\t" + messagetime); // invio del messaggio
 			}
 		}
+		printwriter.println("Messaggio privato inviato a " + recipient + ": " + message + "\t" + messagetime);
 		System.out.println("Messaggio inviato da " + username);
 	}
 	
