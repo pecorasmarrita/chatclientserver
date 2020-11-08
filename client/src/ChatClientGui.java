@@ -17,11 +17,13 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class ChatClientGui extends JFrame {
 
-	private JPanel contentPane;
+	public JPanel contentPane;
+	public static JLabel labelarea;
 
 	/**
 	 * Launch the application.
@@ -35,39 +37,30 @@ public class ChatClientGui extends JFrame {
 		BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(System.in));  
 		PrintWriter printwriter = new PrintWriter(socket.getOutputStream(), true); // input
 		BufferedReader serverreader = new BufferedReader(new InputStreamReader(socket.getInputStream())); // reader input
+		String servermessage = ""; String nameinput = "";
+		String listapartecipanti = serverreader.readLine();
 		do {
 			try {
-				String nameinput = JOptionPane.showInputDialog("Inserire nome utente:");
+				serverreader.readLine();
+				nameinput = JOptionPane.showInputDialog("Inserire nome utente:");
 				printwriter.println(nameinput);
+				Thread.sleep(1000);
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, "Input non valido.", "Attenzione!",  JOptionPane.ERROR_MESSAGE);
 			}
-			if (!serverreader.readLine().equals("Nome utente impostato correttamente"))
+			servermessage = serverreader.readLine();
+			if (!servermessage.equals("Nome utente impostato correttamente"))
 			{
-				JOptionPane.showMessageDialog(null, serverreader, "Attenzione!",  JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, servermessage, "Attenzione!",  JOptionPane.ERROR_MESSAGE);
 			}
-		} while (!serverreader.readLine().equals("Nome utente impostato correttamente"));
-		ThreadChatClient threadchatclient = new ThreadChatClient (socket);
+		} while (!(servermessage.equals("Nome utente impostato correttamente")));
+		ChatClientGui frame = new ChatClientGui();
+		frame.setVisible(true);
+		frame.setTitle("Beatiful Chat - Benvenuto " + nameinput);
+		ThreadChatClientGUI threadchatclient = new ThreadChatClientGUI (socket, frame, labelarea);
 		Thread threadclientchat = new Thread (threadchatclient); // Thread client
 		threadclientchat.start();
-		
-		
-		
-		
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ChatClientGui frame = new ChatClientGui();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
 		System.out.println("Caricamento completato! Per favore apri la finestra che è apparsa.");
-		
-		
-		
 		System.out.println("Inserire messaggio desiderato, usare 'disconnect' per disconnettersi, usare '@nomeutente' per inviare un messaggio privato");
 		for (;;)
 		{
@@ -98,11 +91,13 @@ public class ChatClientGui extends JFrame {
 		setBounds(100, 100, 553, 325);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
-		JTextArea textArea = new JTextArea();
-		contentPane.add(textArea, BorderLayout.SOUTH);
+		contentPane.setLayout(new BorderLayout(0, 0));
+		JTextArea txtrInserireMessaggio = new JTextArea();
+		labelarea = new JLabel();
+		txtrInserireMessaggio.setToolTipText("Inserire messaggio");
+		contentPane.add(txtrInserireMessaggio, BorderLayout.SOUTH);
+		contentPane.add(labelarea);
 	}
 
 }

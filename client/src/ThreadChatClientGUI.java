@@ -1,22 +1,26 @@
 package src;
 
 import java.util.*;
+
+import javax.swing.JLabel;
+
 import java.io.*;
 import java.net.*;
 import java.awt.*;
 import java.awt.TrayIcon.MessageType;
 
 /**
- * La classe ThreadChatClient implementa runnable, contiene il costruttore e il metodo run(). Si occupa della gestione dei messaggi server-client.
+ * La classe ThreadChatClientGUI implementa runnable, contiene il costruttore e il metodo run(). Si occupa della gestione dei messaggi server-client.
  * @author Leonardo Giustiniani
  *
  */
 
-public class ThreadChatClient implements Runnable
+public class ThreadChatClientGUI extends ThreadChatClient implements Runnable
 {
 	private Socket socketserver;
 	private BufferedReader bufferedreader;
-
+	public ChatClientGui frame;
+	public JLabel labelarea;
 	
 	/**
 	 * Costruttore della classe ThreadChatClient, assegna alle variabili della classe quelle passate durante l'inizializzazione del thread.
@@ -24,9 +28,12 @@ public class ThreadChatClient implements Runnable
 	 * @throws Exception - in caso di errori con il socket oppure l'IO
 	 */
 	
-	public ThreadChatClient(Socket socket) throws Exception
+	public ThreadChatClientGUI(Socket socket, ChatClientGui frame, JLabel labelarea) throws Exception
 	{
+		super(socket);
 		socketserver = socket; // socket del server
+		this.frame = frame;
+		this.labelarea = labelarea;
 		bufferedreader = new BufferedReader(new InputStreamReader(socketserver.getInputStream())); // reader input
 	}
 
@@ -38,6 +45,7 @@ public class ThreadChatClient implements Runnable
 	@Override
 	public void run() // override methodo run
 	{
+			String guitext = "";
 			TrayIcon trayIcon = getWindows10Tray();
 			for (;;)
 			{
@@ -51,7 +59,9 @@ public class ThreadChatClient implements Runnable
 				{
 					break;
 				}
-				System.out.println(input);
+				guitext = guitext + input;
+				guitext.replace("\t", "     ");
+				ChatClientGui.labelarea.setText(input);
 				SendWindows10Notification(input, trayIcon);
 			}
 		try
@@ -64,34 +74,5 @@ public class ThreadChatClient implements Runnable
 		}
 	}
 	
-	public void SendWindows10Notification(String message, TrayIcon trayIcon)
-	{
-		if ("Windows 10".equals(System.getProperty("os.name")))
-		{
-			trayIcon.displayMessage("Beatiful chat", message, MessageType.INFO);
-		}
-	}
 	
-	public TrayIcon getWindows10Tray()
-	{
-		if (!"Windows 10".equals(System.getProperty("os.name")))
-		{
-			System.out.println("Sistema di notifiche non supportato dal sistema operativo " + System.getProperty("os.name"));
-		}
-		else 
-		{
-			SystemTray tray = SystemTray.getSystemTray(); // ottenere system tray
-		    Image image = Toolkit.getDefaultToolkit().createImage("./img/logo.png");
-		    TrayIcon trayIcon = new TrayIcon(image, "Beatiful chat");
-		    trayIcon.setImageAutoSize(true);
-		    trayIcon.setToolTip("Beatiful chat");
-		    try {
-				tray.add(trayIcon);
-			} catch (AWTException e) {
-				System.out.println("Can't send notification");
-			}
-		    return trayIcon;	
-		}
-		return null;
-	}
 }
