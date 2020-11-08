@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -22,8 +23,10 @@ import javax.swing.JOptionPane;
 
 public class ChatClientGui extends JFrame {
 
+	private static String listapartecipanti;
 	public JPanel contentPane;
-	public static JLabel labelarea;
+	public static JLabel messaggi;
+	public static JLabel partecipanti;
 
 	/**
 	 * Launch the application.
@@ -38,7 +41,7 @@ public class ChatClientGui extends JFrame {
 		PrintWriter printwriter = new PrintWriter(socket.getOutputStream(), true); // input
 		BufferedReader serverreader = new BufferedReader(new InputStreamReader(socket.getInputStream())); // reader input
 		String servermessage = ""; String nameinput = "";
-		String listapartecipanti = serverreader.readLine();
+		listapartecipanti = serverreader.readLine();
 		do {
 			try {
 				serverreader.readLine();
@@ -57,7 +60,7 @@ public class ChatClientGui extends JFrame {
 		ChatClientGui frame = new ChatClientGui();
 		frame.setVisible(true);
 		frame.setTitle("Beatiful Chat - Benvenuto " + nameinput);
-		ThreadChatClientGUI threadchatclient = new ThreadChatClientGUI (socket, frame, labelarea);
+		ThreadChatClientGUI threadchatclient = new ThreadChatClientGUI (socket, frame, messaggi, partecipanti);
 		Thread threadclientchat = new Thread (threadchatclient); // Thread client
 		threadclientchat.start();
 		System.out.println("Caricamento completato! Per favore apri la finestra che è apparsa.");
@@ -88,16 +91,19 @@ public class ChatClientGui extends JFrame {
 	public ChatClientGui() {
 		setTitle("Beatiful Chat");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 553, 325);
+		setBounds(100, 100, 453, 700);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		JTextArea txtrInserireMessaggio = new JTextArea();
-		labelarea = new JLabel();
+		messaggi = new JLabel();
+		partecipanti = new JLabel(listapartecipanti);
+		JScrollPane scroller = new JScrollPane(messaggi, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		txtrInserireMessaggio.setToolTipText("Inserire messaggio");
 		contentPane.add(txtrInserireMessaggio, BorderLayout.SOUTH);
-		contentPane.add(labelarea);
+		contentPane.add(scroller);
+		contentPane.add(partecipanti, BorderLayout.NORTH);
 	}
 
 }

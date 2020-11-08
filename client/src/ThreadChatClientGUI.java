@@ -20,7 +20,8 @@ public class ThreadChatClientGUI extends ThreadChatClient implements Runnable
 	private Socket socketserver;
 	private BufferedReader bufferedreader;
 	public ChatClientGui frame;
-	public JLabel labelarea;
+	public JLabel messaggi;
+	public JLabel partecipanti;
 	
 	/**
 	 * Costruttore della classe ThreadChatClient, assegna alle variabili della classe quelle passate durante l'inizializzazione del thread.
@@ -28,12 +29,13 @@ public class ThreadChatClientGUI extends ThreadChatClient implements Runnable
 	 * @throws Exception - in caso di errori con il socket oppure l'IO
 	 */
 	
-	public ThreadChatClientGUI(Socket socket, ChatClientGui frame, JLabel labelarea) throws Exception
+	public ThreadChatClientGUI(Socket socket, ChatClientGui frame, JLabel messaggi, JLabel partecipanti) throws Exception
 	{
 		super(socket);
 		socketserver = socket; // socket del server
 		this.frame = frame;
-		this.labelarea = labelarea;
+		this.messaggi = messaggi;
+		this.partecipanti = partecipanti;
 		bufferedreader = new BufferedReader(new InputStreamReader(socketserver.getInputStream())); // reader input
 	}
 
@@ -59,10 +61,17 @@ public class ThreadChatClientGUI extends ThreadChatClient implements Runnable
 				{
 					break;
 				}
-				guitext = guitext + input;
-				guitext.replace("\t", "     ");
-				ChatClientGui.labelarea.setText(input);
-				SendWindows10Notification(input, trayIcon);
+				if (input.startsWith("Partecipanti: ") || input.equals("Al momento non è connesso nessuno"))
+				{
+					ChatClientGui.partecipanti.setText(input);
+				}
+				else
+				{
+					SendWindows10Notification(input, trayIcon);
+					guitext = guitext + "<br>" + input;
+					ChatClientGui.messaggi.setText("<html>"+guitext+"<html>");
+				}
+				
 			}
 		try
 		{

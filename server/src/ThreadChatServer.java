@@ -205,6 +205,7 @@ public class ThreadChatServer implements Runnable
 		if (clientlist.size()<2)
 		{
 			for(ThreadChatServer thread : clientlist) thread.printwriter.println("Sei rimasto da solo in chat, ulteriori messaggi saranno visibili solo a te"); // invio informazione disconnessione
+			for(ThreadChatServer thread : clientlist) thread.printwriter.println(nameList());
 		}
 		else 
 		{
